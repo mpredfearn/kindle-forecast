@@ -2,20 +2,17 @@
 
 cd "$(dirname "$0")"
 
-python programs/parse_weather.py
-python programs/parse_ical.py
+python programs/parse_weather.py --template=icons/template.svg --output=output.svg
+#python programs/parse_ical.py
 
-rsvg-convert --background-color=white -o almost_done.png almost_done.svg
+rsvg-convert --background-color=white -o output.png output.svg
 
 #We optimize the image
-pngcrush -c 0 -ow almost_done.png done.png
+pngcrush -c 0 -ow output.png
 
 #We move the image where it needs to be
-rm /var/www/kindle/done.png
-mv done.png /var/www/kindle/done.png
+rm -f /home/weather/public_html/huddersfield.png
+mv output.png /home/weather/public_html/huddersfield.png
 
-rm basic.ics
-rm after-weather.svg
-rm almost_done.png
-rm almost_done.svg
+rm output.svg
 

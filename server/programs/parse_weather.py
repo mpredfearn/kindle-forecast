@@ -1,10 +1,16 @@
-#!/usr/bin/env/python3
+#!/usr/bin/env python3
 import urllib.request, urllib.parse
 from xml.dom import minidom
 import json
 import datetime
 import codecs
+import argparse
 
+parser = argparse.ArgumentParser(description="Weather data")
+parser.add_argument("--template", type=argparse.FileType('r', encoding='utf-8'), help="Teamplate file to parse")
+parser.add_argument("--output", type=argparse.FileType('a', encoding='utf-8'), help="Output file to write")
+
+args = parser.parse_args()
 
 # Code of my city, if you don't know what to do here, read the README
 CODE = "39292"
@@ -25,7 +31,7 @@ forecast = data['query']['results']['channel']['item']['forecast']
 print(forecast)
 
 # Open SVG to process
-output = codecs.open('icons/template.svg', 'r', encoding='utf-8').read()
+output = args.template.read()
 
 print("Forecast:")
 print(forecast)
@@ -47,4 +53,5 @@ for i in range(len(forecast)):
 
 
 # Write output
-codecs.open('after-weather.svg', 'w', encoding='utf-8').write(output)
+args.output.truncate()
+args.output.write(output)
