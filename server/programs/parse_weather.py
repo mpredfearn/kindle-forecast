@@ -36,8 +36,12 @@ output = args.template.read()
 print("Forecast:")
 print(forecast)
 
+days = { "Mon": "Monday", "Tue": "Tuesday", "Wed": "Wednesday", "Thu": "Thursday", "Fri": "Friday", "Sat": "Saturday", "Sun": "Sunday" }
+
 for i in range(len(forecast)):
 	day = forecast[i]
+
+	day["day"] = days[day["day"]]
 	print("Day:")
 	print(day)
 
