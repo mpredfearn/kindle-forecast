@@ -46,10 +46,19 @@ for i in range(len(forecast)):
 	print(day)
 
 	image_url = 'icons/' + day['code'] + '.svg'
+	print("Using icon", image_url)
+	
+	icon = ""
 	# Read icon (Just the path line)
-	f = codecs.open(image_url ,'r', encoding='utf-8')
-	f.readline()
-	day['icon'] = f.readline()
+	with codecs.open(image_url ,'r', encoding='utf-8') as f:
+		for line in f:
+			if "xml version" in line or "DOCTYPE" in line:
+				pass
+			else:
+				icon = icon + line
+	#f.readline()
+	print("icon", icon)
+	day['icon'] = icon
 	f.close()
 
 	for k, v in day.items():
