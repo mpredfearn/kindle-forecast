@@ -48,194 +48,191 @@
      inkscape:window-maximized="0"
      inkscape:current-layer="svg3462" />
   <g
-     transform="scale(3.8) translate(5, 5)"
+     transform="scale(5) translate(-10, -7)"
      id="g3464">DAY_0_icon</g>
   <g
-     transform="scale(1.5) translate(300, 20)"
+     transform="scale(2.4) translate(165, 7)"
      id="g3466">DAY_1_icon</g>
   <g
-     transform="scale(1.5) translate(300, 160)"
+     transform="scale(2.4) translate(165, 90)"
      id="g3468">DAY_2_icon</g>
   <g
-     transform="scale(1.50) translate(300, 290)"
+     transform="scale(2.4) translate(165, 170)"
      id="g3470">DAY_3_icon</g>
   <text
      id="text3474"
-     x="211.32796"
-     y="30.596088"
+     x="215"
+     y="30"
      font-size="35px"
      style="font-size:35px;font-family:'DejaVu Sans';text-anchor:middle">Today:</text>
   <text
      id="text3476"
-     x="115.27502"
-     y="407.71954"
+     x="140"
+     y="405"
      font-size="35px"
-     style="font-size:35px;font-family:'DejaVu Sans';text-anchor:middle">High:</text>
+     style="font-size:35px;font-family:'DejaVu Sans';text-anchor:end">High:</text>
   <text
      id="text3478"
-     x="294.03973"
-     y="459.86609"
+     x="290"
+     y="450"
      font-size="100px"
      style="font-size:100px;font-family:'DejaVu Sans';text-anchor:end">DAY_0_high</text>
   <text
      id="text3480"
-     x="328.74707"
-     y="540.48041"
+     x="330"
+     y="450"
      font-size="64px"
      style="font-size:64px;font-family:'DejaVu Sans';text-anchor:middle">°C</text>
   <text
      id="text3482"
-     x="122.50367"
-     y="515.04327"
+     x="140"
+     y="515"
      font-size="35px"
-     style="font-size:35px;font-family:'DejaVu Sans';text-anchor:middle">Low:</text>
+     style="font-size:35px;font-family:'DejaVu Sans';text-anchor:end">Low:</text>
   <text
      id="text3484"
-     x="290.78961"
-     y="568.26654"
+     x="290"
+     y="555"
      font-size="100px"
      style="font-size:100px;font-family:'DejaVu Sans';text-anchor:end">DAY_0_low</text>
   <text
      id="text3486"
-     x="323.91397"
-     y="432.07999"
+     x="330"
+     y="555"
      font-size="64px"
      style="font-size:64px;font-family:'DejaVu Sans';text-anchor:middle">°C</text>
   <text
      id="text3488"
-     x="606.75464"
-     y="30.639336"
-     font-size="32px"
-     style="font-size:36.18401337px;font-family:'DejaVu Sans';text-anchor:middle"
-     transform="scale(1.040153,0.96139702)">Tomorrow:</text>
+     x="615"
+     y="30"
+     font-size="34px"
+     style="font-size:34px;font-family:'DejaVu Sans';text-anchor:middle">Tomorrow:</text>
   <text
      id="text3490"
-     x="640.28461"
-     y="63.991875"
+     x="675"
+     y="65"
      font-size="20px"
-     style="font-size:20px;font-family:'DejaVu Sans';text-anchor:middle">High:</text>
+     style="font-size:20px;font-family:'DejaVu Sans';text-anchor:end">High:</text>
   <text
      id="text3492"
-     x="747.90729"
-     y="94.610886"
+     x="750"
+     y="95"
      font-size="58px"
      style="font-size:58px;font-family:'DejaVu Sans';text-anchor:end">DAY_1_high</text>
   <text
      id="text3494"
-     x="764.39636"
-     y="88.122673"
+     x="770"
+     y="95"
      font-size="37px"
      style="font-size:37px;font-family:'DejaVu Sans';text-anchor:middle">°C</text>
   <text
      id="text3496"
-     x="635.74652"
-     y="133.33388"
+     x="675"
+     y="135"
      font-size="20px"
-     style="font-size:20px;font-family:'DejaVu Sans';text-anchor:middle">Low:</text>
+     style="font-size:20px;font-family:'DejaVu Sans';text-anchor:end">Low:</text>
   <text
      id="text3498"
-     x="745.38678"
-     y="163.15944"
+     x="750"
+     y="165"
      font-size="58px"
      style="font-size:58px;font-family:'DejaVu Sans';text-anchor:end">DAY_1_low</text>
   <text
      id="text3500"
-     x="771.30084"
-     y="564.03595"
+     x="770"
+     y="165"
      font-size="37px"
      style="font-size:37px;font-family:'DejaVu Sans';text-anchor:middle">°C</text>
   <text
      id="text3502"
-     x="590.15784"
-     y="240.48264"
-     font-size="32px"
-     style="font-size:34.06911469px;font-family:'DejaVu Sans';text-anchor:middle"
-     transform="scale(1.0646599,0.93926709)">DAY_2_day:</text>
+     x="615"
+     y="230"
+     font-size="34px"
+     style="font-size:34px;font-family:'DejaVu Sans';text-anchor:middle">DAY_2_day:</text>
   <text
      id="text3504"
-     x="638.21326"
-     y="265.60294"
+     x="675"
+     y="265"
      font-size="20px"
-     style="font-size:20px;font-family:'DejaVu Sans';text-anchor:middle">High:</text>
+     style="font-size:20px;font-family:'DejaVu Sans';text-anchor:end">High:</text>
   <text
      id="text3506"
-     x="752.74042"
-     y="294.84103"
+     x="750"
+     y="295"
      font-size="58px"
      style="font-size:58px;font-family:'DejaVu Sans';text-anchor:end">DAY_2_high</text>
   <text
      id="text3508"
-     x="772.14203"
-     y="485.13074"
+     x="770"
+     y="295"
      font-size="37px"
      style="font-size:37px;font-family:'DejaVu Sans';text-anchor:middle">°C</text>
   <text
      id="text3510"
-     x="636.43695"
-     y="341.53265"
+     x="675"
+     y="335"
      font-size="20px"
-     style="font-size:20px;font-family:'DejaVu Sans';text-anchor:middle">Low:</text>
+     style="font-size:20px;font-family:'DejaVu Sans';text-anchor:end">Low:</text>
   <text
      id="text3512"
-     x="744.69635"
-     y="374.43677"
+     x="750"
+     y="365"
      font-size="58px"
      style="font-size:58px;font-family:'DejaVu Sans';text-anchor:end">DAY_2_low</text>
   <text
      id="text3514"
-     x="765.23755"
-     y="153.90938"
+     x="770"
+     y="365"
      font-size="37px"
      style="font-size:37px;font-family:'DejaVu Sans';text-anchor:middle">°C</text>
   <text
      id="text3516"
-     x="589.48669"
-     y="461.7457"
-     font-size="32px"
-     style="font-size:34.06911469px;font-family:'DejaVu Sans';text-anchor:middle"
-     transform="scale(1.0646599,0.93926709)">DAY_3_day:</text>
+     x="615"
+     y="430"
+     font-size="34px"
+     style="font-size:34px;font-family:'DejaVu Sans';text-anchor:middle">DAY_3_day:</text>
   <text
      id="text3518"
-     x="640.28461"
-     y="467.90442"
+     x="675"
+     y="465"
      font-size="20px"
-     style="font-size:20px;font-family:'DejaVu Sans';text-anchor:middle">High:</text>
+     style="font-size:20px;font-family:'DejaVu Sans';text-anchor:end">High:</text>
   <text
      id="text3520"
-     x="749.28821"
-     y="497.14255"
+     x="750"
+     y="495"
      font-size="58px"
      style="font-size:58px;font-family:'DejaVu Sans';text-anchor:end">DAY_3_high</text>
   <text
      id="text3522"
-     x="768.15009"
-     y="277.30563"
+     x="770"
+     y="495"
      font-size="37px"
      style="font-size:37px;font-family:'DejaVu Sans';text-anchor:middle">°C</text>
   <text
      id="text3524"
-     x="641.96057"
-     y="536.24902"
+     x="675"
+     y="535"
      font-size="20px"
-     style="font-size:20px;font-family:'DejaVu Sans';text-anchor:middle">Low:</text>
+     style="font-size:20px;font-family:'DejaVu Sans';text-anchor:end">Low:</text>
   <text
      id="text3526"
-     x="749.52948"
-     y="572.59558"
+     x="750"
+     y="565"
      font-size="58px"
      style="font-size:58px;font-family:'DejaVu Sans';text-anchor:end">DAY_3_low</text>
   <text
      id="text3528"
-     x="770.91187"
-     y="365.87714"
+     x="770"
+     y="565"
      font-size="37px"
      style="font-size:37px;font-family:'DejaVu Sans';text-anchor:middle">°C</text>
   <path
-     d="m 443.58594,192.57439 0,4.58401 349.6053,0 0,-4.58401 -349.6053,0 z"
+     d="m 440,198 0,4.58401 350,0 0,-4.58401 -350,0 z"
      id="path3530"
      inkscape:connector-curvature="0" />
   <path
-     d="m 440.82415,399.54918 0,4.58401 351.67664,0 0,-4.58401 -351.67664,0 z"
+     d="m 440,398 0,4.58401 350,0 0,-4.58401 -350,0 z"
      id="path3530-3"
      inkscape:connector-curvature="0" />
   <path
