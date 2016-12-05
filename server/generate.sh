@@ -14,5 +14,5 @@ pngcrush -c 0 -ow output.png
 rm -f /home/weather/public_html/huddersfield.png
 mv output.png /home/weather/public_html/huddersfield.png
 
-rm output.svg
+#rm output.svg
 

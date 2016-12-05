@@ -1,0 +1,51 @@
+#!/bin/sh
+
+_FUNCTIONS=/etc/rc.d/functions
+[ -f ${_FUNCTIONS} ] && . ${_FUNCTIONS}
+
+. /var/local/wan/info
+
+PPP_IP_START=/var/run/ppp/ip_start
+
+PPP_RESOLV_CONF=$(readlink /etc/resolv.conf)
+PPP_RESOLV_SAVE=/var/run/resolv.conf.save
+
+#PPP_RESOLV_NEW="/etc/resolv.d/resolv.conf.${WAN_PEER}"
+PPP_RESOLV_NEW="/etc/ppp/resolv.conf"
+
+LIPC_HASH_PROP=/usr/bin/lipc-hash-prop
+LIPC_GET_PROP=/usr/bin/lipc-get-prop
+
+INTERFACE="$1"
+TTY_DEVICE="$2"
+SPEED="$3"
+LOCAL_IP="$4"
+GATEWAY_IP="$5"
+
+if [ ! -r ${PPP_RESOLV_NEW} ]; then
+    msg "unknown WAN peer (${WAN_PEER})" E
+fi
+
+if [ 0 -ne "$(${LIPC_GET_PROP} -i com.lab126.wan shouldRoute)" ]; then
+	cp ${PPP_RESOLV_CONF} ${PPP_RESOLV_SAVE}
+	cp ${PPP_RESOLV_NEW} ${PPP_RESOLV_CONF}
+
+	route add default gw "${GATEWAY_IP}" "${INTERFACE}"
+fi
+
+for DNS in $(cat ${PPP_RESOLV_NEW} \
+				| sed -e 's/^nameserver[ \t]\+\([0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+\).*$/\1/; t; d'); do
+	route add -host ${DNS} gw ${GATEWAY_IP} ${INTERFACE}
+done
+
+# /usr/bin/lipc-send-event com.lab126.hal wanPPPUp
+
+echo "{ cmIpAddr = \"${LOCAL_IP}\",
+        cmDefaultGW = \"${GATEWAY_IP}\",
+	    cmNetMask = \"255.255.255.255\",
+	    cmResolvConf = \"$(sed -e 's/\([\\"]\)/\\\1/g' < "${PPP_RESOLV_NEW}")\" }" \
+		  | ${LIPC_HASH_PROP} com.lab126.wan cmIntfInfo
+
+echo PPP interface up ${INTERFACE} ${TTY_DEVICE} ${SPEED} ${LOCAL_IP} ${GATEWAY_IP} > ${PPP_IP_START}
+
+msg "PPP interface up ${INTERFACE} ${TTY_DEVICE} ${SPEED} xxx.xxx.$(echo ${LOCAL_IP} | cut -d '.' -f 3,4) xxx.xxx.$(echo ${GATEWAY_IP} | cut -d '.' -f 3,4)" I

@@ -1,0 +1,19 @@
+# /etc/ppp/peers/peer-4
+
+# don't require peer to authenticate itself
+noauth
+
+# peer doesn't support compression control protocol
+noccp
+
+debug
+noipdefault
+usepeerdns
+defaultroute
+
+# If your network requires it, add your username here and password in /etc/ppp/chap-secrets
+user <username>
+
+connect "/usr/sbin/chat -f /etc/ppp/chat/connect-4"
+disconnect "/usr/sbin/chat -f /etc/ppp/chat/disconnect-4"
+
