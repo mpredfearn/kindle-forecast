@@ -6,11 +6,12 @@ import datetime
 import codecs
 #import argparse
 import logging, os, sys, tempfile
+import cgi
 
 logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
 
-# Code of my city, if you don't know what to do here, read the README
-CODE = "39292"
+form = cgi.FieldStorage()
+CODE = form.getvalue("code")
 # Units should be 'c' or 'f'
 UNITS='c'
 
@@ -63,6 +64,8 @@ for i in range(len(forecast)):
 # Write output
 svg = tempfile.NamedTemporaryFile()
 png = tempfile.NamedTemporaryFile()
+out = tempfile.NamedTemporaryFile('rb')
+
 
 svg.write(bytes(output, 'UTF-8'))
 
@@ -70,7 +73,8 @@ svg.write(bytes(output, 'UTF-8'))
 os.system("rsvg-convert --background-color=white -o %s %s" % (png.name, svg.name))
 
 # Optimize the image for kindle eink
-os.system("pngcrush -s -c 0 %s pngout.png" % png.name)
+os.system("pngcrush -s -c 0 %s %s" % (png.name, out.name))
 
-with open("pngout.png", 'rb') as f:
-    sys.stdout.buffer.write(f.read())
+print("Content-Type: image/png\n")
+sys.stdout.flush()
+sys.stdout.buffer.write(out.read())
