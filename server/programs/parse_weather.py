@@ -4,13 +4,10 @@ from xml.dom import minidom
 import json
 import datetime
 import codecs
-import argparse
+#import argparse
+import logging, os, sys, tempfile
 
-parser = argparse.ArgumentParser(description="Weather data")
-parser.add_argument("--template", type=argparse.FileType('r', encoding='utf-8'), help="Teamplate file to parse")
-parser.add_argument("--output", type=argparse.FileType('a', encoding='utf-8'), help="Output file to write")
-
-args = parser.parse_args()
+logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
 
 # Code of my city, if you don't know what to do here, read the README
 CODE = "39292"
@@ -21,20 +18,20 @@ baseurl = "https://query.yahooapis.com/v1/public/yql?"
 yql_query = urllib.parse.quote("select * from weather.forecast where u='" + UNITS + "' and woeid=" + CODE)
 yql_url = baseurl + "q=" + yql_query +"&format=json"
 
-print(yql_url)
+logging.debug(yql_url)
 
 weather = urllib.request.urlopen(yql_url)
 
 data = json.loads(codecs.decode(weather.read(), "utf-8"))
-print(data)
+logging.debug(data)
 forecast = data['query']['results']['channel']['item']['forecast']
-print(forecast)
+logging.debug(forecast)
 
 # Open SVG to process
-output = args.template.read()
+output = open("icons/template.svg", "r", encoding='utf-8').read()
 
-print("Forecast:")
-print(forecast)
+logging.debug("Forecast:")
+logging.debug(forecast)
 
 days = { "Mon": "Monday", "Tue": "Tuesday", "Wed": "Wednesday", "Thu": "Thursday", "Fri": "Friday", "Sat": "Saturday", "Sun": "Sunday" }
 
@@ -42,11 +39,11 @@ for i in range(len(forecast)):
 	day = forecast[i]
 
 	day["day"] = days[day["day"]]
-	print("Day:")
-	print(day)
+	logging.debug("Day:")
+	logging.debug(day)
 
 	image_url = 'icons/' + day['code'] + '.svg'
-	print("Using icon", image_url)
+	logging.debug("Using icon %s", image_url)
 	
 	icon = ""
 	# Read icon (Just the path line)
@@ -56,8 +53,6 @@ for i in range(len(forecast)):
 				pass
 			else:
 				icon = icon + line
-	#f.readline()
-	print("icon", icon)
 	day['icon'] = icon
 	f.close()
 
@@ -66,5 +61,16 @@ for i in range(len(forecast)):
 
 
 # Write output
-args.output.truncate()
-args.output.write(output)
+svg = tempfile.NamedTemporaryFile()
+png = tempfile.NamedTemporaryFile()
+
+svg.write(bytes(output, 'UTF-8'))
+
+# Convert svg to png
+os.system("rsvg-convert --background-color=white -o %s %s" % (png.name, svg.name))
+
+# Optimize the image for kindle eink
+os.system("pngcrush -s -c 0 %s pngout.png" % png.name)
+
+with open("pngout.png", 'rb') as f:
+    sys.stdout.buffer.write(f.read())
