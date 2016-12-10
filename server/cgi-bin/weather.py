@@ -36,6 +36,8 @@ logging.debug(forecast)
 
 days = { "Mon": "Monday", "Tue": "Tuesday", "Wed": "Wednesday", "Thu": "Thursday", "Fri": "Friday", "Sat": "Saturday", "Sun": "Sunday" }
 
+output = output.replace('LOCATION', data['query']['results']['channel']['location']['city'])
+
 for i in range(len(forecast)):
 	day = forecast[i]
 

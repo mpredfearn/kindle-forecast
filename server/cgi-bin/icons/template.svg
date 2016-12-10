@@ -21,7 +21,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -41,10 +41,10 @@
      id="namedview3534"
      showgrid="false"
      inkscape:zoom="1.4483333"
-     inkscape:cx="415.54855"
-     inkscape:cy="113.95406"
-     inkscape:window-x="2667"
-     inkscape:window-y="0"
+     inkscape:cx="234.93782"
+     inkscape:cy="528.39913"
+     inkscape:window-x="747"
+     inkscape:window-y="25"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg3462" />
   <g
@@ -64,7 +64,7 @@
      x="215"
      y="30"
      font-size="35px"
-     style="font-size:35px;font-family:'DejaVu Sans';text-anchor:middle">Today:</text>
+     style="font-size:35px;font-family:'DejaVu Sans';text-anchor:middle">Today in LOCATION:</text>
   <text
      id="text3476"
      x="140"
