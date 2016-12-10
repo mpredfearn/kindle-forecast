@@ -1,0 +1,6 @@
+
+# Weather cron rules. Append to root's crontab.
+*/2 * * * * /mnt/us/weather/display-weather.sh
+1 */6 * * * /mnt/us/weather/download-weather.sh
+1 0 * * * /mnt/us/weather/download-tides.sh
+
