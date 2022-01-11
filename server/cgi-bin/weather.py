@@ -1,73 +1,25 @@
 #!/usr/bin/env python3
-import urllib.request, urllib.parse
-from xml.dom import minidom
-import json
-import datetime
-import codecs
-#import argparse
+
 import logging, os, sys, tempfile
 import cgi
+
+sys.path.append("lib")
+
+import WeatherParser
 
 logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
 
 form = cgi.FieldStorage()
-CODE = form.getvalue("code")
-# Units should be 'c' or 'f'
-UNITS='c'
+location = form.getvalue("location")
 
-baseurl = "https://query.yahooapis.com/v1/public/yql?"
-yql_query = urllib.parse.quote("select * from weather.forecast where u='" + UNITS + "' and woeid=" + CODE)
-yql_url = baseurl + "q=" + yql_query +"&format=json"
+weather = WeatherParser.WeatherParser(location)
 
-logging.debug(yql_url)
-
-weather = urllib.request.urlopen(yql_url)
-
-data = json.loads(codecs.decode(weather.read(), "utf-8"))
-logging.debug(data)
-forecast = data['query']['results']['channel']['item']['forecast']
-logging.debug(forecast)
-
-# Open SVG to process
-output = open("icons/template.svg", "r", encoding='utf-8').read()
-
-logging.debug("Forecast:")
-logging.debug(forecast)
-
-days = { "Mon": "Monday", "Tue": "Tuesday", "Wed": "Wednesday", "Thu": "Thursday", "Fri": "Friday", "Sat": "Saturday", "Sun": "Sunday" }
-
-output = output.replace('LOCATION', data['query']['results']['channel']['location']['city'])
-
-for i in range(len(forecast)):
-	day = forecast[i]
-
-	day["day"] = days[day["day"]]
-	logging.debug("Day:")
-	logging.debug(day)
-
-	image_url = 'icons/' + day['code'] + '.svg'
-	logging.debug("Using icon %s", image_url)
-	
-	icon = ""
-	# Read icon (Just the path line)
-	with codecs.open(image_url ,'r', encoding='utf-8') as f:
-		for line in f:
-			if "xml version" in line or "DOCTYPE" in line:
-				pass
-			else:
-				icon = icon + line
-	day['icon'] = icon
-	f.close()
-
-	for k, v in day.items():
-		output = output.replace('DAY_%d_%s' % (i, k), v)
-
+output = weather.fetch()
 
 # Write output
 svg = tempfile.NamedTemporaryFile()
 png = tempfile.NamedTemporaryFile()
 out = tempfile.NamedTemporaryFile('rb')
-
 
 svg.write(bytes(output, 'UTF-8'))
 
