@@ -1,7 +1,11 @@
 FROM httpd:2.4
 
-RUN apt-get -y update
-RUN apt-get -y install librsvg2-bin pngcrush python3 python3-bs4 python3-requests python3-tz 
+RUN apt-get update && apt-get install -y \
+	librsvg2-bin \
+	python3-matplotlib \
+	python3-scipy \
+	pngcrush \
+	python3-requests
 
 COPY ./cgi-bin /usr/local/apache2/cgi-bin/
 RUN chmod +x /usr/local/apache2/cgi-bin/tides.py /usr/local/apache2/cgi-bin/weather.py
