@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import logging, os, sys, tempfile
-import base64, cgi
+import cgi
 
 sys.path.append("lib")
 
@@ -45,7 +45,7 @@ for svg_day in range(1,4):
         output = output.replace("DAY_%d_TIDE_%d" % (svg_day, svg_tide), "")
 
 
-output = output.replace("GRAPH", base64.b64encode(tides.graph).decode())
+output = output.replace("GRAPH", tides.graph)
 
 # Write output
 svg = tempfile.NamedTemporaryFile()

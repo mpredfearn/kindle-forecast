@@ -1,12 +1,10 @@
-import datetime, logging, urllib
+import base64, datetime, logging, matplotlib, requests, tempfile, urllib
 
-from tempfile import NamedTemporaryFile
+from scipy.interpolate import make_interp_spline
 
-import pytz
-from bs4 import BeautifulSoup
-import requests
-
-import xml.etree.ElementTree as ET
+import matplotlib.dates as dates
+import matplotlib.pyplot as plt
+import numpy as np
 
 logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
 
@@ -38,67 +36,65 @@ class TideParser(object):
     """
 
     def __init__(self, location_id):
+        self.prediction_url = "https://easytide.admiralty.co.uk/Home/GetPredictionData"
 
-        self.base_url = "http://www.ukho.gov.uk/easytide/EasyTide/"
-        self.prediction_url = self.base_url + "ShowPrediction.aspx"
-
-        self.params = {"PortID": location_id,
-                       "PredictionLength": "7",
-                       "DaylightSavingOffset": "0",
-                       "PrinterFriendly": "true",
-                       "HeightUnits": "0",
-                       "GraphSize": "10"
-                       }
-    
-        self.location = "Unknown"
+        self.location_id = location_id
+        self.params = {"stationId": location_id}
         self.tides = []
         self.graph = ""
+        self.location = "Unknown"
 
     def fetch(self):
         sess = requests.Session()
-        rsp = sess.get(self.prediction_url, params = self.params)
+
+        rsp = sess.get("https://easytide.admiralty.co.uk/Home/GetStations")
 
         if rsp.status_code == requests.codes.ok:
-            feed_doc = BeautifulSoup(rsp.content, "html.parser")
+            #print(rsp.json())
+            for station in rsp.json()["features"]:
+                #print(station)
+                if station["properties"]["Id"] == self.location_id:
+                    self.location = station["properties"]["Name"] + ", " + station["properties"]["Country"]
+        else:
+            rsp.raise_for_status()
 
-            table_list = feed_doc.find_all("table", "HWLWTable")
-            year = str(datetime.datetime.now().year)
-            SILLY_FORMAT = "%Y, %a %d %b %H:%M"
+        rsp = sess.get(self.prediction_url, params = self.params)
+        if rsp.status_code == requests.codes.ok:
+            #print(rsp.json())
+            times = []
+            heights = []
+            for event in rsp.json()["tidalEventList"]:
+                #print(event)
 
-            ret = []
-            
-            for table in table_list:
-                table_date = table.find('th', 'HWLWTableHeaderCell').text
-                tide_types = [x.text.strip() for x in table.find_all('th', 'HWLWTableHWLWCellPrintFriendly')]
-                times_heights = [x.text.strip() for x in table.find_all('td')]
+                t = datetime.datetime.fromisoformat(event["dateTime"])
+                self.tides.append(Tide(t, {0: "High", 1: "Low"}[event["eventType"]], event["height"]))
 
-                midlen = len(times_heights) >> 1
-                tide_times = times_heights[0:midlen]
-                heights = [float(h[:-2]) for h in times_heights[midlen:]]
-                types = ["Low" if x == "LW" else "High" for x in tide_types]
-                times = []
-                for time in tide_times:
-                    times.append(datetime.datetime.strptime(year + ", " + table_date + " " + time, SILLY_FORMAT))
+                if t < datetime.datetime.now() + datetime.timedelta(days=2):
+                    times.append(t)
+                    heights.append(event["height"])
+            #print(self.tides)
 
-                # Set to GMT, although when it's saved out, this is lost
-                gmt = pytz.timezone("GMT")
-                times = [gmt.localize(t) for t in times]
+            num_dates = dates.date2num(times)
+            xnew = np.linspace(num_dates.min(), num_dates.max(), 300)
+            spl = make_interp_spline(num_dates, heights, k=3)
+            plt_heights = spl(xnew)
+            plt_dates = dates.num2date(xnew)
 
-                for tide_tuple in zip(times, types, heights):
-                    ret.append(Tide(*tide_tuple))
+            fig, axes = plt.subplots()
+            fig.set_size_inches(6,4)
+            plt.plot(plt_dates,plt_heights)
+            axes.xaxis.set_major_formatter(dates.DateFormatter('%d %b %H:%M'))
+            fig.autofmt_xdate()
 
-            self.tides = ret
-            
-            # Get location name
-            location = feed_doc.find("span", {"id": "PredictionSummary1_lblPortDetails"})
-            self.location = location.text.strip().title()
-            
-            # Get tide graph
-            graph = feed_doc.find("img", {"class", "PredictionGraph"})
-            graph_img = sess.get(self.base_url + graph["src"].split("src=")[-1])
-            if graph_img.status_code == requests.codes.ok:
-                self.graph = graph_img.content
+            tmp = tempfile.NamedTemporaryFile()
+            fig.savefig(tmp.name, format="png", dpi=100)
 
+            with open(tmp.name, "rb") as imageFile:
+                self.graph = base64.b64encode(imageFile.read()).decode('utf-8')
+
+            #print(self.graph)
+            #plt.plot(heights)
+            #plt.show()
         else:
             rsp.raise_for_status() 
     
